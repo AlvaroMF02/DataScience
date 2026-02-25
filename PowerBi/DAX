@@ -1,0 +1,117 @@
+// ===============================
+// 📌 AGREGACIONES BÁSICAS
+// ===============================
+
+SUM(Tabla[Columna])              // Suma
+AVERAGE(Tabla[Columna])          // Media
+MIN(Tabla[Columna])              // Mínimo
+MAX(Tabla[Columna])              // Máximo
+COUNT(Tabla[Columna])            // Conteo
+DISTINCTCOUNT(Tabla[Columna])    // Conteo distinto
+
+
+// ===============================
+// 🎯 CALCULATE (CAMBIA CONTEXTO)
+// ===============================
+
+CALCULATE(Expresión, Filtro1, Filtro2)
+
+// Ejemplo
+Ventas España =
+CALCULATE(
+    SUM(Ventas[Importe]),
+    Ventas[Pais] = "España"
+)
+
+
+// ===============================
+// 🔎 FUNCIONES DE FILTRO
+// ===============================
+
+FILTER(Tabla, Condición)    // Devuelve tabla filtrada
+
+Ventas Altas =
+CALCULATE(
+    SUM(Ventas[Importe]),
+    FILTER(Ventas, Ventas[Importe] > 1000)
+)
+
+ALL(Tabla)                  // Ignora filtros
+ALL(Tabla[Columna])
+
+REMOVEFILTERS(Tabla)        // Versión moderna para quitar filtros
+
+
+// ===============================
+// 📊 FUNCIONES CONDICIONALES
+// ===============================
+
+IF(Condición, Valor_true, Valor_false)
+
+SWITCH(
+    Expresión,
+    Valor1, Resultado1,
+    Valor2, Resultado2,
+    Resultado_default
+)
+
+
+// ===============================
+// 🧠 CONTEXTO Y VALORES
+// ===============================
+
+VALUES(Tabla[Columna])              // Valores únicos en el contexto actual
+SELECTEDVALUE(Tabla[Columna], Alt)  // Valor seleccionado en slicer
+
+
+// ===============================
+// 📅 TIME INTELLIGENCE
+// (Requiere tabla calendario)
+// ===============================
+
+TOTALYTD(SUM(Ventas[Importe]), Calendario[Fecha])
+
+CALCULATE(
+    SUM(Ventas[Importe]),
+    SAMEPERIODLASTYEAR(Calendario[Fecha])
+)
+
+DATEADD(Calendario[Fecha], -1, YEAR)
+
+
+// ===============================
+// 🔗 RELACIONES
+// ===============================
+
+RELATED(OtraTabla[Columna])     // Trae valor relacionado (columna calculada)
+RELATEDTABLE(OtraTabla)         // Devuelve tabla relacionada
+
+
+// ===============================
+// ➗ MATEMÁTICAS ÚTILES
+// ===============================
+
+DIVIDE(Numerador, Denominador, 0)  // Mejor que / (evita error división por 0)
+ROUND(Expresión, Decimales)
+ABS(Expresión)
+
+
+// ===============================
+// 📌 VARIABLES (MUY RECOMENDADO)
+// ===============================
+
+Beneficio =
+VAR TotalVentas = SUM(Ventas[Importe])
+VAR TotalCostes = SUM(Ventas[Coste])
+RETURN
+TotalVentas - TotalCostes
+
+
+// ===============================
+// 🧩 CONCEPTOS CLAVE
+// ===============================
+
+// - Contexto de filtro
+// - Contexto de fila
+// - Transición de contexto (CALCULATE)
+// - Diferencia entre columna calculada y medida
